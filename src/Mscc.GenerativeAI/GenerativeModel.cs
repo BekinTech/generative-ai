@@ -1552,12 +1552,6 @@ namespace Mscc.GenerativeAI
             request.TaskType ??= taskType;
             request.Title ??= title;
 
-            string[] allowedModels =
-            [
-                GenerativeAI.Model.Embedding.SanitizeModelName(), 
-                GenerativeAI.Model.TextEmbedding.SanitizeModelName()
-            ];
-            if (!allowedModels.Contains(request.Model.SanitizeModelName())) throw new NotSupportedException();
             if (!string.IsNullOrEmpty(request.Title) && request.TaskType != TaskType.RetrievalDocument) throw new NotSupportedException("If a title is specified, the task must be a retrieval document type task.");
             
             var url = ParseUrl(Url, Method);
@@ -1588,12 +1582,7 @@ namespace Mscc.GenerativeAI
             CancellationToken cancellationToken = default)
         {
             if (requests == null) throw new ArgumentNullException(nameof(requests));
-            string[] allowedModels =
-            [
-                GenerativeAI.Model.Embedding.SanitizeModelName(), 
-                GenerativeAI.Model.TextEmbedding.SanitizeModelName()
-            ];
-            if (!allowedModels.Contains(_model.SanitizeModelName())) throw new NotSupportedException();
+
             if (!string.IsNullOrEmpty(title) && taskType != TaskType.RetrievalDocument) throw new NotSupportedException("If a title is specified, the task must be a retrieval document type task.");
 
             var method = GenerativeAI.Method.BatchEmbedContents;
